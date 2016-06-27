@@ -43,7 +43,6 @@ export default class bighead extends Component {
 
   fetch() {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-console.log('url after login:', 'https://oauth.reddit.com/api/v1/me')
     fetch('https://oauth.reddit.com/'+ this.state.currentUrl + '.json', {
       headers: {
         'Authorization': 'bearer '+this.state.accessToken,
@@ -67,15 +66,15 @@ console.log('url after login:', 'https://oauth.reddit.com/api/v1/me')
     let list;
     if (this.state.res) {
       list = (
-        <ListView dataSource={this.state.res} renderRow={(row) => <RedditItem data={row.data} /> }/>
+        <ListView dataSource={this.state.res} renderRow={(rowData, sectionID, rowID) => <RedditItem data={rowData.data} id={rowID} /> }/>
       )
     } else {
       this.fetch();
     }
     return (
       <View style={styles.container}>
-        <View style={{height: 50}}>
-          <TouchableHighlight onPress={() => { this.setState({currentUrl: 'hot'});  this.fetch() } }>
+        <View style={{height: 80, alignItems: 'flex-end', paddingTop:20}}>
+          <TouchableHighlight onPress={() => { this.setState({url: 'hot'});  this.fetch() } }>
             <Text style={{alignSelf: 'flex-start'}}>Hot</Text>
           </TouchableHighlight>
             <TouchableHighlight onPress={() => {this.setState({currentUrl: 'new'}); this.fetch() } }>
@@ -127,7 +126,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
   welcome: {
