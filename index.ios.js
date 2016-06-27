@@ -47,12 +47,12 @@ export default class bighead extends Component {
     let list;
     if (this.state.res) {
       list = (
-        <ListView dataSource={this.state.res} renderRow={(row) => <RedditItem data={row.data} /> }/>
+        <ListView dataSource={this.state.res} renderRow={(rowData, sectionID, rowID) => <RedditItem data={rowData.data} id={rowID} /> }/>
       )
     }
     return (
       <View style={styles.container}>
-        <View style={{height: 50}}>
+        <View style={{height: 80, alignItems: 'flex-end', paddingTop:20}}>
           <TouchableHighlight onPress={() => { this.setState({url: 'hot'});  this.fetch() } }>
             <Text style={{alignSelf: 'flex-start'}}>Hot</Text>
           </TouchableHighlight>
@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
   welcome: {
